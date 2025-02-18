@@ -1,0 +1,17 @@
+[versions]
+serialization-plugin-version = "2.1.10"
+serialization-version = "1.8.0"
+kotlin-logger-version = "7.0.4"
+logback-version = "1.5.16"
+dokka-version = "2.0.0"
+kotlinx-coroutines-core-version = "1.10.1"
+
+[libraries]
+kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json" ,version.ref = "serialization-version" }
+kotlin-logging = { module = "io.github.oshai:kotlin-logging" ,version.ref = "kotlin-logger-version" }
+kotlin-logback = { module = "ch.qos.logback:logback-classic" ,version.ref = "logback-version" }
+kotlinx-coroutines-core = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-core" ,version.ref = "kotlinx-coroutines-core-version" }
+
+[plugins]
+kotlin-serialization-plugin = { id = "org.jetbrains.kotlin.plugin.serialization" ,version.ref = "serialization-plugin-version" }
+kotlin-dokka-plugin = { id = "org.jetbrains.dokka" ,version.ref = "dokka-version"  }
