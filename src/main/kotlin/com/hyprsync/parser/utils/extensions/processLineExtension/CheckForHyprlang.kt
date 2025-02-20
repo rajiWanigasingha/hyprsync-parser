@@ -12,7 +12,6 @@ fun String.checkForHyprlang(): Boolean {
     this
         .trim()
         .split(" ")
-        .also { println(it) }
         .takeIf { it.size in 0..2 }
         ?.let {
             it.last().endsWith('{')
