@@ -29,13 +29,19 @@ class CashSettingsTest {
 
         val keyValue = filterTypeSettingsRepo.getKeyValues()
 
+        val hyprlang = filterTypeSettingsRepo.getHyprland()
+
         GenerateMetaData(metaDataRepo)
             .genForKeyValuePair(keyValue)
 
+        GenerateMetaData(metaDataRepo)
+            .genForHyprlang(hyprlang)
 
         val sortSettings = SortSettings(metaDataRepo)
 
         sortSettings.sortKeyValue()
+
+        sortSettings.sortHyprlandValue()
 
         createCashStructured.createAutoStartCacheSettings()
 
@@ -50,6 +56,8 @@ class CashSettingsTest {
         createCashStructured.createWindowCacheSettings()
 
         createCashStructured.createMonitorCacheSettings()
+
+        createCashStructured.createHyprlangCacheSettings()
     }
 
 }

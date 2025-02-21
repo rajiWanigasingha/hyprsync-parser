@@ -11,8 +11,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
  *
  * ###### [GenerateMetaData]
  *
- * This use to generate meta-data for `Key Value Pair` and `Hyprlang`, and inhered from
- * [GenerateMetaDataInterface].
+ * This use to generate meta-data for `Key Value Pair` and `Hyprlang`, and inhered from [GenerateMetaDataInterface].
  *
  * @constructor [metaData] as Type [MetaDataRepoInterface]
  *

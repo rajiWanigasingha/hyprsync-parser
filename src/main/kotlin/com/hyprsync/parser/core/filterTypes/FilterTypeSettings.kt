@@ -20,6 +20,12 @@ import kotlin.io.path.forEachLine
  * - Internal core api used for separating different types of settings
  * like ***Key Value Pairs***, ***Source Paths***, ***Hyprlang***
  *
+ * This will store processed key values inside [filteredSettingsRepo], it will be stored as
+ * key value pairs or hyprlang.
+ *
+ * Methods
+ * 1. [processSettings]
+ *
  */
 internal class FilterTypeSettings {
 

@@ -56,4 +56,18 @@ class SortSettingsTest {
 
     }
 
+
+    @Test
+    fun `sort hyprland value settings`() {
+
+        val hyprlang = filterTypeSettingsRepo.getHyprland()
+
+        GenerateMetaData(metaDataRepo)
+            .genForHyprlang(hyprlang)
+
+        SortSettings(metaDataRepo)
+            .sortHyprlandValue()
+
+    }
+
 }

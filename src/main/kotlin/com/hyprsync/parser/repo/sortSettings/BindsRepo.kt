@@ -2,12 +2,31 @@ package com.hyprsync.parser.repo.sortSettings
 
 import com.hyprsync.parser.models.*
 
+/**
+ *
+ * ###### [BindsRepo]
+ *
+ * This uses to store and get all processed bind settings.
+ *
+ * ***Store*** - companion object `Bind Store`
+ *
+ * Methods
+ * 1. [processSort]
+ * 2. [cashBindSettings]
+ *
+ */
 internal class BindsRepo {
 
     private companion object BindStore {
 
+        /**
+         * Use to store processed `bind settings`.
+         */
         private val bindsStore = mutableListOf<BindsModel>()
 
+        /**
+         * Use to insert default bind settings into [bindsStore].
+         */
         private fun insertIntoDefault(
             keyword: String,
             defaultBindSettings: DefaultBindSettings,
@@ -22,7 +41,9 @@ internal class BindsRepo {
             )
         }
 
-
+        /**
+         * Use to insert extra args bind settings into [bindsStore]
+         */
         private fun insertIntoExtraArgs(
             keyword: String,
             extraBindSettings: ExtraBindSettings,
@@ -38,6 +59,9 @@ internal class BindsRepo {
         }
 
 
+        /**
+         * Use to insert error bind settings into [bindsStore]
+         */
         private fun insertIntoError(keyword: String, errorBindSettings: ErrorBindSettings, comment: String? = null) {
             bindsStore.add(
                 BindsModel(
@@ -48,7 +72,9 @@ internal class BindsRepo {
             )
         }
 
-
+        /**
+         * Use to get processed `bind settings` from [bindsStore]
+         */
         private fun getAllBinds(): List<BindsModel> {
             return bindsStore.toList()
         }
@@ -56,6 +82,11 @@ internal class BindsRepo {
     }
 
 
+    /**
+     * This uses to process default key value settings and store them in `bind store`.
+     *
+     * @param keyValueMetaDataModel as Type [KeyValueMetaDataModel]
+     */
     fun processSort(keyValueMetaDataModel: KeyValueMetaDataModel) {
 
         val bindTypeRegex = """^bind[lroentmisdp]*""".toRegex()
@@ -98,6 +129,9 @@ internal class BindsRepo {
     }
 
 
+    /**
+     * Use to get all the stored and processed `bind settings`.
+     */
     fun cashBindSettings(): List<BindsModel> {
         return getAllBinds()
     }

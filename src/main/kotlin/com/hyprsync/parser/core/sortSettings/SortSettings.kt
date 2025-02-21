@@ -1,5 +1,8 @@
 package com.hyprsync.parser.core.sortSettings
 
+import com.hyprsync.parser.models.HyprlandSettings
+import com.hyprsync.parser.models.HyprlangMetaData
+import com.hyprsync.parser.models.HyprlangValuesModel
 import com.hyprsync.parser.models.KeyValueMetaDataModel
 import com.hyprsync.parser.repo.metaData.MetaDataRepoInterface
 import com.hyprsync.parser.repo.sortSettings.*
@@ -17,6 +20,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
  *
  * Methods,
  * 1. [sortKeyValue]
+ * 2. [sortHyprlandValue]
  *
  * @constructor [metaDataRepo] as ang class inhabited by [MetaDataRepoInterface]
  */
@@ -59,6 +63,60 @@ internal class SortSettings(
                     keyValueMetaDataModel.keyword.matches(Regex("""\$\w+""")) -> VariableRepo().processSort(keyValueMetaDataModel)
                 }
             }
+    }
+
+
+    /**
+     * This uses to sort hyprlang settings
+     *
+     * Sort key value
+     * 1. Input
+     * 2. Animations
+     * 3. Decorations
+     * 4. And many more
+     *
+     *
+     */
+    fun sortHyprlandValue() {
+        val hyprKeyValue = mutableListOf<HyprlangValuesModel>()
+
+        metaDataRepo
+            .getAllHyprlang()
+            .forEach { hyprlangMetaData: HyprlangMetaData ->
+                hyprlangMetaData
+                    .codeBlock
+                    .forEach { keyValueMetaDataModel: KeyValueMetaDataModel ->
+                        if (hyprKeyValue.isNotEmpty() && hyprKeyValue.last().masterKeyword == hyprlangMetaData.hyprKey) {
+                            hyprKeyValue
+                                .last()
+                                .hyprlandSettings
+                                .add(
+                                    HyprlandSettings(
+                                        keyword = keyValueMetaDataModel.keyword,
+                                        result = keyValueMetaDataModel.args,
+                                        comment = keyValueMetaDataModel.comment
+                                    )
+                                )
+
+                        } else {
+                            hyprKeyValue.add(
+                                HyprlangValuesModel(
+                                    masterKeyword = hyprlangMetaData.hyprKey,
+                                    hyprlandSettings = mutableListOf(
+                                        HyprlandSettings(
+                                            keyword = keyValueMetaDataModel.keyword,
+                                            result = keyValueMetaDataModel.args,
+                                            comment = keyValueMetaDataModel.comment
+                                        )
+                                    )
+                                )
+                            )
+
+                        }
+                    }
+            }
+
+        HyprlangRepo().processSort(hyprKeyValue)
     }
 
 }

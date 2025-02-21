@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.hyprsync.parser"
-version = "0.0.1-DEV"
+version = "0.0.1-ALPHA"
 
 repositories {
     mavenCentral()
@@ -36,6 +36,7 @@ tasks.withType<DokkaTask>().configureEach {
     moduleName.set(project.name)
     moduleVersion.set(project.version.toString())
 
+
     dokkaSourceSets {
         configureEach {
             documentedVisibilities.set(
@@ -48,6 +49,17 @@ tasks.withType<DokkaTask>().configureEach {
         }
     }
 }
+
+tasks.register<Jar>("dokkaJar") {
+    dependsOn("dokkaHtml")
+    archiveClassifier.set("javadoc")
+    from(tasks.dokkaHtml)
+}
+
+tasks.withType<Jar>().configureEach {
+    from(tasks.dokkaHtml)
+}
+
 
 tasks.test {
     useJUnitPlatform()

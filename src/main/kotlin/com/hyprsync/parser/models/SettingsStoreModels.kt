@@ -113,6 +113,9 @@ data class WorkspaceModel(
     val comment: String? = null,
 )
 
+/**
+ * Use to store processed window rules
+ */
 @Serializable
 data class WindowRuleModel(
     val keyword: String,
@@ -121,10 +124,32 @@ data class WindowRuleModel(
     val comment: String? = null,
 )
 
+/**
+ * Use to store processed Variables
+ */
 @Serializable
 data class VariableModel(
     val keyword: String,
     val value: String,
     val comment: String? = null
+)
+
+/**
+ * Uses to store process hyprlang values
+ */
+@Serializable
+data class HyprlandSettings(
+    val keyword: String,
+    val result: List<String>,
+    val comment: String?
+)
+
+/**
+ * This use to store processed hyprlang values.
+ */
+@Serializable
+data class HyprlangValuesModel(
+    val masterKeyword: String,
+    val hyprlandSettings: MutableList<HyprlandSettings> = mutableListOf()
 )
 
