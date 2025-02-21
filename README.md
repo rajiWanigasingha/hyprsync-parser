@@ -8,8 +8,8 @@ _____
 
 This libary use for parsering all the hyprland settings and creating a json files that has settings and store the in .cache in the home folder
 
-Libary documentation -> [Documentation](https://rajiwanigasingha.github.io/hyprsync-parser/) This host docs about classes and methods
-Wiki -> How it work in [wiki](https://github.com/rajiWanigasingha/hyprsync-parser/wiki/How-This-Works)
+* Libary documentation -> [Documentation](https://rajiwanigasingha.github.io/hyprsync-parser/) This host docs about classes and methods
+* Wiki -> How it work in [wiki](https://github.com/rajiWanigasingha/hyprsync-parser/wiki/How-This-Works)
 
 _____
 
