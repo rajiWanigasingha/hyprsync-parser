@@ -25,16 +25,16 @@ dependencies {
 
 
 tasks.dokkaHtml {
-    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/html"))
+    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation"))
 }
 
-tasks.dokkaGfm {
-    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/markdown"))
-}
-
-tasks.dokkaJekyll {
-    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/jekyll"))
-}
+//tasks.dokkaGfm {
+//    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/markdown"))
+//}
+//
+//tasks.dokkaJekyll {
+//    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/jekyll"))
+//}
 
 tasks.withType<DokkaTask>().configureEach {
     moduleName.set(project.name)
