@@ -30,7 +30,7 @@ class ParseAndCacheSettings {
 
     private val filteredSettingsRepo = FilteredSettingsRepo()
 
-    /**
+        /**
      * To create process and cache settings.
      *
      * @param hyprlandSettingsPath as Type [Path] default value `$home/.config/hypr/hyprland.conf`

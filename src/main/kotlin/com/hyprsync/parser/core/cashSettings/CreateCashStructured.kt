@@ -9,10 +9,7 @@ import com.hyprsync.parser.repo.sortSettings.VariableRepo
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.json.Json
 import java.nio.file.Path
-import kotlin.io.path.createDirectory
-import kotlin.io.path.createFile
-import kotlin.io.path.exists
-import kotlin.io.path.writeLines
+import kotlin.io.path.*
 
 /**
  * ###### [CreateCashStructured] Core Api
@@ -28,30 +25,21 @@ import kotlin.io.path.writeLines
  * 6. [createAutoStartCacheSettings]
  * 7. [createVariableCacheSettings]
  * 8. [createHyprlangCacheSettings]
- *
  */
 internal class CreateCashStructured {
 
-    /**
-     * Use to create folders in .cache
-     */
+    /** Use to create folders in .cache */
     private companion object CreateFolderStructure {
 
         private val logger = KotlinLogging.logger("CreateFolderStructure")
 
-        /**
-         * Path to home of user
-         */
+        /** Path to home of user */
         private val systemHome = System.getProperty("user.home")
 
-        /**
-         * Folder that caches all settings
-         */
+        /** Folder that caches all settings */
         private val FOLDER_NAME = "$systemHome/.cache/com.hyprsync.conf"
 
-        /**
-         * All settings folder caches.
-         */
+        /** All settings folder caches. */
         private val SETTINGS_FOLDERS = listOf(
             "keyboard/keyboard.json",
             "environment/environment.json",
@@ -81,7 +69,9 @@ internal class CreateCashStructured {
                 ?.let {
                     Path.of(FOLDER_NAME).createDirectory()
                     Path.of("$FOLDER_NAME/hyprlang").createDirectory()
-                }
+                } ?: {
+                Path.of(FOLDER_NAME).deleteExisting()
+            }
 
             SETTINGS_FOLDERS.forEach { paths: String ->
 
@@ -111,65 +101,52 @@ internal class CreateCashStructured {
     private val logger = KotlinLogging.logger(javaClass.name)
 
     /**
-     * Repository for executing system commands and handling execution settings.
+     * Repository for executing system commands and handling execution
+     * settings.
      */
     private val executeRepo = ExecuteRepo()
 
-    /**
-     * Repository for managing environment variables and system configurations.
-     */
+    /** Repository for managing environment variables and system configurations. */
     private val environmentRepo = EnvironmentRepo()
 
-    /**
-     * Repository for handling key bindings and shortcut configurations.
-     */
+    /** Repository for handling key bindings and shortcut configurations. */
     private val bindsRepo = BindsRepo()
 
     /**
-     * Repository for managing user-defined variables within Hyprland configurations.
+     * Repository for managing user-defined variables within Hyprland
+     * configurations.
      */
     private val variableRepo = VariableRepo()
 
-    /**
-     * Repository for workspace-related configurations and management.
-     */
+    /** Repository for workspace-related configurations and management. */
     private val workspaceRepo = WorkspaceRepo()
 
-    /**
-     * Repository for defining and managing window rules in Hyprland.
-     */
+    /** Repository for defining and managing window rules in Hyprland. */
     private val windowRuleRepo = WindowRuleRepo()
 
     /**
-     * Repository for monitor configurations, including resolution, refresh rates, and positioning.
+     * Repository for monitor configurations, including resolution, refresh
+     * rates, and positioning.
      */
     private val monitorRepo = MonitorRepo()
 
-    /**
-     * Repository for hyprlang settings
-     */
+    /** Repository for hyprlang settings */
     private val hyprlangRepo = HyprlangRepo()
 
-    /**
-     * System user's home directory path.
-     */
+    /** System user's home directory path. */
     private val systemHome = System.getProperty("user.home")
 
-    /**
-     * Path to the configuration cache folder for HyprSync.
-     */
+    /** Path to the configuration cache folder for HyprSync. */
     private val folderName = "$systemHome/.cache/com.hyprsync.conf"
 
 
-    /**
-     * This uses to cache `Execute settings`
-     */
+    /** This uses to cache `Execute settings` */
     fun createAutoStartCacheSettings() {
         val path = Path.of("$folderName/autostart/autostart.json")
 
         val writeLinesAutoStart = executeRepo
             .cashExecuteSettings()
-            .map { executeModel: ExecuteModel ->  Json.encodeToString(executeModel)  }
+            .map { executeModel: ExecuteModel -> Json.encodeToString(executeModel) }
 
         path
             .writeLines(
@@ -177,9 +154,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Env settings`
-     */
+    /** This uses to cache `Env settings` */
     fun createEnvironmentCacheSettings() {
         val path = Path.of("$folderName/environment/environment.json")
 
@@ -193,9 +168,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Binds settings`
-     */
+    /** This uses to cache `Binds settings` */
     fun createBindsCacheSettings() {
         val path = Path.of("$folderName/keyboard/keyboard.json")
 
@@ -210,9 +183,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Variable settings`
-     */
+    /** This uses to cache `Variable settings` */
     fun createVariableCacheSettings() {
         val path = Path.of("$folderName/variables/variable.json")
 
@@ -226,9 +197,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Workspace settings`
-     */
+    /** This uses to cache `Workspace settings` */
     fun createWorkspaceCacheSettings() {
         val path = Path.of("$folderName/workspace/workspace.json")
 
@@ -242,9 +211,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Window settings`
-     */
+    /** This uses to cache `Window settings` */
     fun createWindowCacheSettings() {
         val path = Path.of("$folderName/windowRule/windowrule.json")
 
@@ -258,9 +225,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Monitor settings`
-     */
+    /** This uses to cache `Monitor settings` */
     fun createMonitorCacheSettings() {
         val path = Path.of("$folderName/monitor/monitor.json")
 
@@ -274,9 +239,7 @@ internal class CreateCashStructured {
             )
     }
 
-    /**
-     * This uses to cache `Hyprlang settings`
-     */
+    /** This uses to cache `Hyprlang settings` */
     fun createHyprlangCacheSettings() {
         hyprlangRepo
             .cacheHyprlangSettings()
@@ -287,7 +250,7 @@ internal class CreateCashStructured {
 
                 val writeLineHyprlang = hyprlangValuesModel
                     .hyprlandSettings
-                    .map { hyprlandSettings: HyprlandSettings -> Json.encodeToString(hyprlandSettings)  }
+                    .map { hyprlandSettings: HyprlandSettings -> Json.encodeToString(hyprlandSettings) }
 
                 path
                     .writeLines(
