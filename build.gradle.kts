@@ -3,6 +3,7 @@ import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     kotlin("jvm") version "2.0.20"
+    id("maven-publish")
     alias(libs.plugins.kotlin.serialization.plugin)
     alias(libs.plugins.kotlin.dokka.plugin)
 }
@@ -28,14 +29,6 @@ tasks.dokkaHtml {
     outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation"))
 }
 
-//tasks.dokkaGfm {
-//    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/markdown"))
-//}
-//
-//tasks.dokkaJekyll {
-//    outputDirectory.set(rootProject.layout.projectDirectory.dir("documentation/jekyll"))
-//}
-
 tasks.withType<DokkaTask>().configureEach {
     moduleName.set(project.name)
     moduleVersion.set(project.version.toString())
@@ -54,13 +47,14 @@ tasks.withType<DokkaTask>().configureEach {
     }
 }
 
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 tasks.register<Jar>("dokkaJar") {
     dependsOn("dokkaHtml")
     archiveClassifier.set("javadoc")
-    from(tasks.dokkaHtml)
-}
-
-tasks.withType<Jar>().configureEach {
     from(tasks.dokkaHtml)
 }
 
@@ -68,6 +62,31 @@ tasks.withType<Jar>().configureEach {
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(17)
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["kotlin"])
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            artifact(tasks["sourcesJar"])
+            artifact(tasks["dokkaJar"])
+
+        }
+    }
+    repositories {
+        maven {
+            mavenLocal()
+        }
+    }
 }
